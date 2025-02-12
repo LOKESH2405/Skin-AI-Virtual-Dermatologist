@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skin Cancer Detection System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        .upload-section {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 2px dashed #bdc3c7;
+            border-radius: 5px;
+        }
+
+        .upload-section:hover {
+            border-color: #3498db;
+        }
+
+        .file-input {
+            margin-bottom: 20px;
+        }
+
+        .submit-btn {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .chat-btn {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 12px 24px;
+            background-color: #2ecc71;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .chat-btn:hover {
+            background-color: #27ae60;
+        }
+
+        .instructions {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .preview-image {
+            max-width: 300px;
+            margin: 20px auto;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Skin Cancer Detection System</h1>
+        
+        {% if error %}
+        <div class="error-message">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <div class="upload-section">
+            <form action="{{ url_for('show') }}" method="post" enctype="multipart/form-data">
+                <div class="file-input">
+                    <input type="file" name="pic" id="imageInput" accept="image/*" required>
+                </div>
+                <img id="preview" class="preview-image">
+                <button type="submit" class="submit-btn">Analyze Image</button>
+            </form>
+        </div>
+
+        <a href="{{ url_for('chat_page') }}" class="chat-btn">
+            Chat with Medical Assistant
+        </a>
+
+        <div class="instructions">
+            <h3>Instructions:</h3>
+            <ol>
+                <li>Upload a clear image of the skin area you want to analyze</li>
+                <li>Click "Analyze Image" to get the results</li>
+                <li>Use the chat assistant for any questions about skin cancer</li>
+            </ol>
+            <p><strong>Note:</strong> This system is for screening purposes only and should not replace professional medical advice.</p>
+        </div>
+    </div>
+
+    <script>
+        // Image preview functionality
+        const imageInput = document.getElementById('imageInput');
+        const preview = document.getElementById('preview');
+
+        imageInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+</html>
